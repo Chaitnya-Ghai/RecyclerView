@@ -12,9 +12,9 @@ import cg.tutorials.recyclerview.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private val TAG = "MainActivity"
     private var data = 10
-    lateinit var binding: ActivityMainBinding
-    lateinit var linearLayoutManager: LinearLayoutManager
-    lateinit var recyclerAdapter: RecyclerAdapter
+   private lateinit var binding: ActivityMainBinding
+   private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var recyclerAdapter: RecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
