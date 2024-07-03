@@ -4,12 +4,18 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAdapter(private var data: Int) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter(var array: ArrayList<String>, val recyclerInterface: RecyclerInterface) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     private val TAG = "RecyclerAdapter"
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var tvNo : TextView = view.findViewById(R.id.tvFirst)
+        var icon : ImageButton = view.findViewById(R.id.icon)
+        var btn : Button = view.findViewById(R.id.btn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -18,16 +24,17 @@ class RecyclerAdapter(private var data: Int) : RecyclerView.Adapter<RecyclerAdap
     }
 
     override fun getItemCount(): Int {
-        Log.d(TAG, "getItemCount: $data")
-        return data
+        Log.d(TAG, "getItemCount: $")
+        return array.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-    }
-
-    // Method to update data
-    fun updateData(newData: Int) {
-        data = newData
-        notifyDataSetChanged() // Notify the adapter that the data has changed
+        holder.tvNo.text =(array[position])
+        holder.icon.setOnClickListener{
+            recyclerInterface.delete(position)
+        }
+        holder.btn.setOnClickListener {
+            recyclerInterface.update(position,holder.tvNo)
+        }
     }
 }
