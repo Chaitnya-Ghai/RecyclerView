@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-private val TAG = "RecyclerAdapter"
 class RecyclerAdapter(private var data: Int) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+    private val TAG = "RecyclerAdapter"
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     }
