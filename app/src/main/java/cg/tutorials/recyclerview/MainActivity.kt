@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), RecyclerInterface {
         binding.recyclerView.adapter = recyclerAdapter
     }
 
-    override fun update(position: Int,textView: TextView) {
+    override fun update(position: Int,) {
         var dialogViewBinding = CustomDialogBinding.inflate(layoutInflater)
         var dialog = Dialog(this).apply {
             setContentView(dialogViewBinding.root)
