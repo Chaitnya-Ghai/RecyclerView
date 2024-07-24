@@ -3,8 +3,6 @@ package cg.tutorials.recyclerview
 import android.app.ActionBar
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
-import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -15,24 +13,27 @@ import cg.tutorials.recyclerview.databinding.ActivityMainBinding
 import cg.tutorials.recyclerview.databinding.CustomDialogBinding
 
 class MainActivity : AppCompatActivity(), RecyclerInterface {
-    private val TAG = "MainActivity"
     private lateinit var binding: ActivityMainBinding
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var recyclerAdapter: RecyclerAdapter
-    var array = arrayListOf("first", "second", "third")
+    lateinit var todoDatabase: TodoDatabase
+    var array = arrayListOf<TodoEntity>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        recyclerAdapter = RecyclerAdapter(array, this)
+        recyclerAdapter = RecyclerAdapter(this,array, this)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        todoDatabase = TodoDatabase.getInstance(this)
         binding.faBtn.setOnClickListener {
-            array.add("four")
+            todoDatabase.todoInterface().insertTodo(TodoEntity(title = "Test",
+                description = "test"))
+//            array.add("four")
             recyclerAdapter.notifyDataSetChanged()
         }
         linearLayoutManager = LinearLayoutManager(this)
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity(), RecyclerInterface {
         binding.recyclerView.adapter = recyclerAdapter
     }
 
-    override fun update(position: Int,) {
+    override fun update(position: Int) {
         var dialogViewBinding = CustomDialogBinding.inflate(layoutInflater)
         var dialog = Dialog(this).apply {
             setContentView(dialogViewBinding.root)
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity(), RecyclerInterface {
                 dialogViewBinding.edName.error ="Enter Valid Name"
             }
             else{
-                array[position]= dialogViewBinding.edName.text.toString()
+                array[position].title=dialogViewBinding.edName.text.toString()
                 recyclerAdapter.notifyDataSetChanged()
                 dialog.dismiss()
             }

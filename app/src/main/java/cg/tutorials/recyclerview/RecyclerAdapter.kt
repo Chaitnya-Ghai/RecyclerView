@@ -1,5 +1,6 @@
 package cg.tutorials.recyclerview
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,7 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAdapter(var array: ArrayList<String>, val recyclerInterface: RecyclerInterface) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
-    private val TAG = "RecyclerAdapter"
-
+class RecyclerAdapter(var contex:Context ,var array: ArrayList<TodoEntity>, val recyclerInterface: RecyclerInterface) : RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var tvNo : TextView = view.findViewById(R.id.tvFirst)
         var icon : ImageButton = view.findViewById(R.id.icon)
@@ -24,17 +23,16 @@ class RecyclerAdapter(var array: ArrayList<String>, val recyclerInterface: Recyc
     }
 
     override fun getItemCount(): Int {
-        Log.d(TAG, "getItemCount: $")
         return array.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.tvNo.text =(array[position])
+        holder.tvNo.text =(array[position].title)
         holder.icon.setOnClickListener{
             recyclerInterface.delete(position)
         }
         holder.btn.setOnClickListener {
-            recyclerInterface.update(position,holder.tvNo)
+            recyclerInterface.update(position)
         }
     }
 }
